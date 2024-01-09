@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+
+        .box {
+            width: 100%;
+            background-color: #111;
+            border: 1px solid #444;
+            border-radius: 20px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 40px;
+            padding: 5px;
+            color: #444;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .rating label:hover,
+        .rating label:hover~label {
+            color: #ffcc00;
+        }
+
+        /* Additional CSS for Rating Text */
+        .rating-text {
+            color: #ffcc00;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .abc {
+            height: 50px;
+            width: 100%;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="bax">
+        <div class="container">
+            <h1>Rate Your Experience</h1>
+            <div class="rating">
+                <input type="radio" id="star10" name="rating" value="10">
+                <label id="10" for="star10" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star9" name="rating" value="9">
+                <label id="9" for="star9" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star8" name="rating" value="8">
+                <label id="8" for="star8" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star7" name="rating" value="7">
+                <label id="7" for="star7" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star6" name="rating" value="6">
+                <label id="6" for="star6" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star5" name="rating" value="5">
+                <label id="5" for="star5" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star4" name="rating" value="4">
+                <label id="4" for="star4" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star3" name="rating" value="3">
+                <label id="3" for="star3" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star2" name="rating" value="2">
+                <label id="2" for="star2" onclick="changeColor(this)">★</label>
+                
+                <input type="radio" id="star1" name="rating" value="1">
+                <label id="1" for="star1" onclick="changeColor(this)">★</label>
+            </div>
+            <!-- Add this div below the rating div -->
+            <div class="rating-text" id="ratingDescription">
+            </div>
+            <br>
+            <div>
+                <textarea class="abc" placeholder="Describe your experience..." required></textarea>
+            </div>
+            <button class="submit-btn" id="myButton" value="submit" onclick="submitRating()">Submit</button>
+            <p id="submitMessage" style="display: none;">Submitted</p>
+            <p id="ratingText"></p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        let rating = 0;
+
+        function changeColor(label) {
+            const selectedValue = label.getAttribute('id');
+            const stars = document.querySelectorAll('.rating label');
+            const ratingText = document.getElementById('ratingText');
+            
+            console.log(selectedValue);
+            document.getElementById('star' + selectedValue).checked = true;
+            
+            rating=selectedValue;
+             
+              
+
+            stars.forEach(star => {
+                const starValue = star.getAttribute('id');
+                
+                if (starValue <= selectedValue) {
+                 
+                    star.style.color = '#ffcc00';
+                   
+                } else {
+                    star.style.color = '#444';
+                }
+
+                
+            });
+            if(selectedValue!=10){
+                document.getElementById('10').style.color='#444'
+            }
+            else{
+                stars.forEach(star => {
+                const starValue = star.getAttribute('id');
+                 star.style.color = '#ffcc00';
+                    });
+                
+            }
+           
+       
+            switch (selectedValue) {
+                case '1':
+                    document.getElementById('ratingDescription').textContent = 'Bad😠';
+                    break;
+                case '2':
+                    document.getElementById('ratingDescription').textContent = 'Average😒';
+                    break;
+                case '3':
+                    document.getElementById('ratingDescription').textContent = 'Good😊';
+                    break;
+                case '4':
+                    document.getElementById('ratingDescription').textContent = 'Very Good😄';
+                    break;
+                case '5':
+                    document.getElementById('ratingDescription').textContent = 'Excellent🤩';
+                    break;
+                case '6':
+                    document.getElementById('ratingDescription').textContent = 'Awesome🌟';
+                    break;
+                case '7':
+                    document.getElementById('ratingDescription').textContent = 'Fantastic🚀';
+                    break;
+                case '8':
+                    document.getElementById('ratingDescription').textContent = 'Amazing🌈';
+                    break;
+                case '9':
+                    document.getElementById('ratingDescription').textContent = 'Outstanding👏';
+                    break;
+                case '10':
+                    document.getElementById('ratingDescription').textContent = 'Exceptional👍';
+                    break;
+                default:
+                    document.getElementById('ratingDescription').textContent = '';
+                    break;
+            }
+        }
+
+        function resetColor() {
+            const stars = document.querySelectorAll('.rating label');
+            const ratingText = document.getElementById('ratingText');
+
+            stars.forEach(star => {
+                star.style.color = '#444';
+            });
+
+            ratingText.textContent = '';
+        }
+
+        async function submitRating() {
+            const ratingValue = document.querySelector('input[name="rating"]:checked');
+            const reviewText = document.querySelector('.abc');
+
+            if (ratingValue === null && reviewText.value.trim() === '') {
+                alert('Please rate and describe your experience before submitting.');
+            } else if (ratingValue === null)
+                alert('Please give your rating before submitting');
+            else if (reviewText.value.trim() === '')
+                alert('Please describe your experience before submitting');
+            else {
+                let a = ratingValue.value;
+                let b = reviewText.value;
+
+                const message = document.getElementById('submitMessage');
+
+                message.style.display = 'block';
+                message.style.color = '#ffcc00';
+
+                var button = document.getElementById('myButton');
+                button.style.display = 'none';
+
+                const currentDateAndTime = new Date();
+
+                const day = currentDateAndTime.getDate();
+                const month = currentDateAndTime.getMonth() + 1;
+                const year = currentDateAndTime.getFullYear();
+                const hours = currentDateAndTime.getHours();
+
+                try {
+                    let res = await axios.post('/rout', { a, b, day, month, year, hours });
+                    console.log(res);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
